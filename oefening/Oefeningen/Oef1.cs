@@ -13,7 +13,7 @@ namespace First
         int Age();
     }
 
-	/* a: 
+    /* a: 
      * Maak een class Student. Deze class implementeert IPerson. Voeg ook
      * een constructor toe die je toelaat dadelijk Name en DateOfBirth in
      * te stellen.
@@ -36,11 +36,85 @@ namespace First
      * ook dit object door alle properties op het scherm te tonen.
      */
 
+    class Student : IPerson
+    {
+        public string Name { get; set; }
+
+        public DateTime DateOfBirth { get; }
+
+        private int grade;
+        public int Grade {
+            get => grade;
+            set {
+                if (value < 0) grade = 0;
+                else if (value > 10) grade = 10;
+                else grade = value;
+            }
+        }
+
+        public Student(string Name, DateTime DateOfBirth)
+        {
+            this.Name = Name;
+            this.DateOfBirth = DateOfBirth;
+        }
+
+        public int Age()
+        {
+            int age = DateTime.Now.Year - DateOfBirth.Year;
+
+            if (DateTime.Now.Month < DateOfBirth.Month || (DateTime.Now.Month == DateOfBirth.Month && DateTime.Now.Day < DateOfBirth.Day))
+                age--;
+
+            return age;
+        }
+
+        public override string ToString()
+        {
+            return Name + " is " + Age() + " years old and got a grade: " + Grade;
+        }
+    }
+
+    class Teacher : IPerson
+    {
+        public string Name { get; set; }
+
+        public DateTime DateOfBirth { get; }
+
+        public int Salary { get; set; }
+
+        public Teacher(string Name, DateTime DateOfBirth)
+        {
+            this.Name = Name;
+            this.DateOfBirth = DateOfBirth;
+        }
+
+        public int Age()
+        {
+            int age = DateTime.Now.Year - DateOfBirth.Year;
+
+            if (DateTime.Now.Month < DateOfBirth.Month || (DateTime.Now.Month == DateOfBirth.Month && DateTime.Now.Day < DateOfBirth.Day))
+                age--;
+
+            return age;
+        }
+
+        public override string ToString()
+        {
+            return Name + " is " + Age() + " years old and earns: " + Salary;
+        }
+    }
+
     public partial class Oef
     {
         public static void TestOef1()
         {
+            Student student = new Student("Rudolf", new DateTime(2000, 12, 25));
+            student.Grade = 12;
+            Console.WriteLine(student);
 
+            Teacher teacher = new Teacher("Claus", new DateTime(1950, 12, 24));
+            teacher.Salary = 4200;
+            Console.WriteLine(teacher);
         }
     }
     
